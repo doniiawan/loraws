@@ -1,0 +1,69 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' href='/stylesheets/chatbox.css' />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="messaging">
+  <div class="inbox_msg">
+	<div class="inbox_people">
+	  <div class="headind_srch">
+		<div class="recent_heading">
+		  <h4>WEBSOCKET LORA</h4>
+		</div>
+		<div class="srch_bar">
+		  <div class="stylish-input-group">
+			</div>
+		</div>
+	  </div>
+	  <div class="inbox_chat scroll">
+	  </div>
+	</div>
+	<div class="mesgs">
+	  <div id="messages" class="msg_history">
+	  </div>
+	</div>
+  </div>
+</div>
+
+</body>
+<script>
+const getElement = (id) => document.getElementById(id);
+
+  const addMessage = (message) => {
+    const pTag = "<div class=\"outgoing_msg\"></div><div class=\"incoming_msg\"><div class=\"incoming_msg_img\"> <img src=\"https://ptetutorials.com/images/user-profile.png\" alt=\"sunil\"> </div><div class=\"received_msg\"><div class=\"received_withd_msg\"><p>"+ message +"</p><span class=\"time_date\"> " + new Date + "</span></div></div></div>"
+    getElement('messages').innerHTML += pTag;
+  };
+  const ws = new WebSocket('ws://localhost:3030'); ws.onopen = () => {
+    console.log('Now connected');
+  };
+  ws.onmessage = (event) => {
+    const messages = JSON.parse(event.data);
+    messages.forEach(addMessage);
+  };
+  // const fire = () => {
+  //   const username = getElement('name').value || '???'
+  //   ws.send(`${username}: ${getElement('message').value}`);
+  //   getElement('message').value = '';
+  // };
+</script>
+</html>
+
+
+
+
+
+ 
