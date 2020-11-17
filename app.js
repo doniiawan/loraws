@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// add ws listener
+// add ws instance
 const socketServer = new WebSocket.Server({ port: 3030 }); socketServer.on('connection', (socketClient) => {
   console.log('connected');
   console.log('client Set length: ', socketServer.clients.size); socketClient.on('close', (socketClient) => {
@@ -32,17 +32,19 @@ const socketServer = new WebSocket.Server({ port: 3030 }); socketServer.on('conn
     console.log('Number of clients: ', socketServer.clients.size);
   });
 });
-
-const messages = ['READY TO SEND DATA!'];
+// ws listener
+const messages = [];
 
 socketServer.on('connection', (socketClient) => {
   console.log('connected');
   console.log('Number of clients: ', socketServer.clients.size);
   socketClient.send(JSON.stringify(messages));
-  
+
   socketClient.on('message', (message) => {
     console.log('PESAN  = ' + message)
+    console.log(messages);
     messages.push(message);
+
     socketServer.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify([message]));
